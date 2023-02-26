@@ -25,7 +25,8 @@ class ProfileController extends Controller
         } else{
             $profile = null;
         }
-        $posts = Post::where('id', auth()->user()->id)->get();
+        $posts = Post::where('user_id', auth()->user()->id)->get();
+       // dd($posts);
 
         return view('profile', compact('profile', 'posts'));
 
