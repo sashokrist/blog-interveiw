@@ -49,7 +49,7 @@
                             @foreach ($posts as $post)
                                 <tr>
                                     <td class="px-6 py-4">
-                                        {{$post->title}} |
+                                        {{$post->title}}
                                     </td>
                                     <td class="px-6 py-4">
                                         {{ strip_tags( $post->description ) }}

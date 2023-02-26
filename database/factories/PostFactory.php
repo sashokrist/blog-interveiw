@@ -20,10 +20,10 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->title(),
+            'title' => fake()->word(),
             'description' => fake()->text(),
             'user_id' => 1,
-            'category_id' => 1,
+            'category_id' => fake()->numberBetween(1,4),
             'picture' => '1677368121.png', // password
             'publish_date' => now(),
         ];

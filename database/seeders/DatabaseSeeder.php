@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
             ],
         ];
         Category::insert($data);
-        Post::factory(50)->create();
+        Post::factory(20)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
