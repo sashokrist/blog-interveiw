@@ -23,6 +23,9 @@
                             <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data"
                                   class="form-control">
                                 @csrf
+                                @if (Auth::check())
+                                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                                @endif
                                 <div class="mb-6">
                                     <label class="block">
                                         <span>Title</span>
