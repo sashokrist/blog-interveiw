@@ -31,7 +31,7 @@
                         <hr>
                         <p>Profile page created showing logged user's posts. </p>
                         <p>
-                            If you planing to install run php artisan db:seed --class=CategorySeeder to create categories.
+                            When install run php artisan migrate --seed to create dummy post and categories.
                         </p>
                          </div>
                     </div>
