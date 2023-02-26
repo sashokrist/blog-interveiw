@@ -29,6 +29,7 @@
                             Unique likes for blog post: only for registered users - <span style="color:red; font-weight: bold">- NOT IMPLEMENTED</span> <br>
                             Contacts page has a contact form which sends emails to configured email in the .env file</p> <span style="color:red; font-weight: bold">- DONE</span> </p>
                         <hr>
+                        <p>Profile page created showing logged user's posts. </p>
                         <p>
                             If you planing to install run php artisan db:seed --class=CategorySeeder to create categories.
                         </p>
