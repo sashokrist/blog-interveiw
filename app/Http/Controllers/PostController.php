@@ -6,9 +6,11 @@ use App\Http\Requests\PostCreateRequest;
 use App\Http\Requests\PostEditRequest;
 use App\Models\Category;
 use App\Models\Post;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -40,7 +42,7 @@ class PostController extends Controller
     /**
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function store(PostCreateRequest $request)
     {
@@ -56,7 +58,7 @@ class PostController extends Controller
 
     /**
      * Display the specified resource.
-     * @param \App\Models\Post $post
+     * @param Post $post
      * @return Application|Factory|View
      */
     public function show(Post $post)
@@ -69,7 +71,7 @@ class PostController extends Controller
 
     /**
      *
-     * @param \App\Models\Post $post
+     * @param Post $post
      * @return Application|Factory|View
      */
     public function edit(Post $post)
@@ -81,12 +83,14 @@ class PostController extends Controller
 
     /**
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Post $post
-     * @return \Illuminate\Http\RedirectResponse
+     * @param PostEditRequest $request
+     * @param Post $post
+     * @return RedirectResponse
+     * @throws AuthorizationException
      */
     public function update(PostEditRequest $request, Post $post)
     {
+        $this->authorize('update', $post);
         $input = $post->uploadPicture($request);
         $post->fill($input)->save();
         session()->flash('status', 'Post was updated Successfully');
@@ -96,11 +100,13 @@ class PostController extends Controller
 
     /**
      *
-     * @param \App\Models\Post $post
-     * @return \Illuminate\Http\RedirectResponse
+     * @param Post $post
+     * @return RedirectResponse
+     * @throws AuthorizationException
      */
     public function destroy(Post $post)
     {
+        $this->authorize('delete', $post);
         $post->delete();
 
         return redirect()->route('posts.index')->with('status', 'Post Delete Successfully');
