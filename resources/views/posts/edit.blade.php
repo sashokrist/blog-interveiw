@@ -26,15 +26,17 @@
                                 <div class="mb-6">
                                     <label class="block">
                                         <span>Title</span>
-                                        <input type="text" name="title"class="form-control" value="{{old('title',$post->title)}}"/>
+                                        <input type="text" name="title" class="form-control"
+                                               value="{{old('title',$post->title)}}"/>
                                     </label>
                                 </div>
                                 <div class="mb-6">
                                     <label class="block">
                                         <span>Picture</span>
-{{--                                        <input type="file" name="picture" class="form-control" value="{{old('picture'), $post->picture}}"/>--}}
+                                        {{--                                        <input type="file" name="picture" class="form-control" value="{{old('picture'), $post->picture}}"/>--}}
                                         <input type="file" name="picture" class="form-control" placeholder="picture">
-                                        <img src="{{ asset('images/'.$post->picture) }}"  width="100" height="100" alt="no image">
+                                        <img src="{{ asset('images/'.$post->picture) }}" width="100" height="100"
+                                             alt="no image">
                                     </label>
                                 </div>
                                 <div class="mb-6">
@@ -51,7 +53,8 @@
                                 <div class="mb-6">
                                     <label class="block">
                                         <span>Description</span>
-                                        <textarea class="ckeditor form-control" name="description">{{ $post->description }}</textarea>
+                                        <textarea class="ckeditor form-control"
+                                                  name="description">{{ $post->description }}</textarea>
                                     </label>
                                 </div>
                                 <div class="mb-6">

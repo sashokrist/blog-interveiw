@@ -26,7 +26,7 @@
                             Blog posts should have categories: one blog post has one category and blog posts can be filtered by category in blog posts page <span style="color:red; font-weight: bold">- DONE</span> <br>
                             Commenting system: all users can comment on blog posts <span style="color:red; font-weight: bold">- DONE</span> <br>
                             Users can create blog post content through a WYSIWYG editor like TinyMCE or CKeditor <span style="color:red; font-weight: bold">- DONE</span> <br>
-                            Unique likes for blog post: only for registered users - <span style="color:red; font-weight: bold">- NOT IMPLEMENTED</span> <br>
+                            Unique likes for blog post: only for registered users - <span style="color:red; font-weight: bold">- DONE</span> <br>
                             Contacts page has a contact form which sends emails to configured email in the .env file</p> <span style="color:red; font-weight: bold">- DONE</span> </p>
                         <hr>
                         <p>Profile page created showing logged user's posts. </p>

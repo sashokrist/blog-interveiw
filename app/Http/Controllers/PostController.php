@@ -12,6 +12,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -20,7 +21,6 @@ class PostController extends Controller
      *
      * @return Application|Factory|View
      */
-
     public function index()
     {
         $posts = Post::with('category')->latest()->paginate(5);
@@ -41,7 +41,7 @@ class PostController extends Controller
 
     /**
      *
-     * @param \Illuminate\Http\Request $request
+     * @param PostCreateRequest $request
      * @return RedirectResponse
      */
     public function store(PostCreateRequest $request)
@@ -60,12 +60,37 @@ class PostController extends Controller
      * Display the specified resource.
      * @param Post $post
      * @return Application|Factory|View
+     * @throws \JsonException
      */
     public function show(Post $post)
     {
+//        $cachedBlog = Redis::get('post_' . $post->id);
+//
+//        if(isset($cachedBlog)) {
+//            $blog = json_decode($cachedBlog, FALSE, 512, JSON_THROW_ON_ERROR);
+//
+//            return response()->json([
+//                'status_code' => 201,
+//                'message' => 'Fetched from redis',
+//                'data' => $blog,
+//            ]);
+//        }else {
+//            $blog = Post::find($post->id);
+//            Redis::set('post_' . $post->id, $blog);
+//            return response()->json([
+//                'status_code' => 201,
+//                'message' => 'Fetched from database',
+//                'data' => $blog,
+//            ]);
+//        }
+        $countLike = $post->likes()->count();
+        $countDislike = $post->dislikes()->count();
+
         return view('posts.show', [
             'post' => $post,
             'category' => $post->category->name,
+            'countLike' => $countLike,
+            'countDislike' => $countDislike
         ]);
     }
 
@@ -93,6 +118,7 @@ class PostController extends Controller
         $this->authorize('update', $post);
         $input = $post->uploadPicture($request);
         $post->fill($input)->save();
+        $post->like(1)->save($post);
         session()->flash('status', 'Post was updated Successfully');
 
         return redirect()->route('posts.index');
@@ -140,5 +166,26 @@ class PostController extends Controller
             ->get();
 
         return view('posts.search-post', compact('posts'));
+    }
+
+    public function like(Request $request, Post $post)
+    {
+        auth()->user()->like($post);
+
+        return redirect()->route('home')->with('status', 'You like Successfully');
+    }
+
+    public function unlike(Request $request, Post $post)
+    {
+        auth()->user()->unlike($post);
+
+        return redirect()->route('home')->with('status', 'You unlike Successfully');
+    }
+
+    public function dislike(Request $request, Post $post)
+    {
+        auth()->user()->dislike($post);
+
+        return redirect()->route('home')->with('status', 'You dislike Successfully');
     }
 }

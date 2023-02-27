@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasLikes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Redis;
 
-class Post extends Model
+class Post extends Model implements Likeable
 {
-    use HasFactory;
+    use HasFactory, HasLikes;
 
     /**
      * @var string[]
@@ -75,6 +77,22 @@ class Post extends Model
             unset($input['picture']);
         }
         $this->update($input);
+    }
+
+    /**
+     * @throws \JsonException
+     */
+    public static function redisFindOrFail($id)
+    {
+        if ($post = Redis::get('post:' . $id)) {
+            Redis::expire('post:' . $id, 60 * 60 * 2);
+            $post = json_decode($post, true, 512, JSON_THROW_ON_ERROR);
+            return new Post($post);
+        }
+
+        $post = self::findOrFail($id);
+        Redis::setex('post:' . $id, 60 * 60 * 2, json_encode($post, JSON_THROW_ON_ERROR));
+        return $post;
     }
 
 }

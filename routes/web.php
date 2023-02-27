@@ -37,6 +37,10 @@ Route::resource('posts', PostController::class);
 Route::get('/search', [PostController::class, 'search'])->name('search');
 Route::get('/search-post', [PostController::class, 'searchPost'])->name('search-post');
 
+//Likes
+Route::post('/like/{post}', [PostController::class, 'like'])->name('like');
+Route::post('/dislike/{post}', [PostController::class, 'dislike'])->name('dislike');
+Route::post('/unlike/{post}', [PostController::class, 'unlike'])->name('unlike');
 //Comments
 Route::post('comments.store', [CommentController::class, 'store'])->name('comments.store');
 
