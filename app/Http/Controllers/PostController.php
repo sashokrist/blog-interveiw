@@ -170,20 +170,23 @@ class PostController extends Controller
 
     public function like(Request $request, Post $post)
     {
+        $this->authorize('like', $post);
         auth()->user()->like($post);
 
         return redirect()->route('home')->with('status', 'You like Successfully');
     }
-
-    public function unlike(Request $request, Post $post)
-    {
-        auth()->user()->unlike($post);
-
-        return redirect()->route('home')->with('status', 'You unlike Successfully');
-    }
+//
+//    public function unlike(Request $request, Post $post)
+//    {
+//        $this->authorize('update', $post);
+//        auth()->user()->unlike($post);
+//
+//        return redirect()->route('home')->with('status', 'You unlike Successfully');
+//    }
 
     public function dislike(Request $request, Post $post)
     {
+        $this->authorize('like', $post);
         auth()->user()->dislike($post);
 
         return redirect()->route('home')->with('status', 'You dislike Successfully');

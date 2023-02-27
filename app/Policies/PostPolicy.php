@@ -38,4 +38,9 @@ class PostPolicy
     {
         return $user->id === $post->user_id;
     }
+
+    public function like(User $user, Post $post)
+    {
+        return $user->id !== null;
+    }
 }
